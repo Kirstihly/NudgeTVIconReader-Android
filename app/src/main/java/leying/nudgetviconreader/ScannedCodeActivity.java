@@ -1,3 +1,7 @@
+//If you meet any problems,
+//please contact
+//Leying Hu
+//hu.leying@columbia.edu
 package leying.nudgetviconreader;
 
 import android.Manifest;
@@ -13,15 +17,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
-import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
 
 public class ScannedCodeActivity extends AppCompatActivity {
     SurfaceView surfaceView;
     TextView txtIconValue;
-    private BarcodeDetector barcodeDetector;
     private CameraSource cameraSource;
     private static final int REQUEST_CAMERA_PERMISSION = 201;
     String intentData = "";
@@ -44,14 +45,8 @@ public class ScannedCodeActivity extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), "Scanner started", Toast.LENGTH_SHORT).show();
 
-        barcodeDetector = new BarcodeDetector.Builder(this)
-                .setBarcodeFormats(Barcode.ALL_FORMATS)
-                .build();
+        //Add recognition algorithm here
 
-        cameraSource = new CameraSource.Builder(this, barcodeDetector)
-                .setRequestedPreviewSize(1920, 1080)
-                .setAutoFocusEnabled(true) //you should add this feature
-                .build();
 
         surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
@@ -78,42 +73,6 @@ public class ScannedCodeActivity extends AppCompatActivity {
             @Override
             public void surfaceDestroyed(SurfaceHolder holder) {
                 cameraSource.stop();
-            }
-        });
-
-
-        barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
-            @Override
-            public void release() {
-                Toast.makeText(getApplicationContext(), "To prevent memory leaks, Scanner has been stopped", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void receiveDetections(Detector.Detections<Barcode> detections) {
-                final SparseArray<Barcode> barcodes = detections.getDetectedItems();
-                if (barcodes.size() != 0) {
-
-
-                    txtIconValue.post(new Runnable() {
-
-                        @Override
-                        public void run() {
-
-                            if (barcodes.valueAt(0).email != null) {
-                                txtIconValue.removeCallbacks(null);
-                                intentData = barcodes.valueAt(0).email.address;
-                                txtIconValue.setText(intentData);
-                                isEmail = true;
-                            } else {
-                                isEmail = false;
-                                intentData = barcodes.valueAt(0).displayValue;
-                                txtIconValue.setText(intentData);
-
-                            }
-                        }
-                    });
-
-                }
             }
         });
     }

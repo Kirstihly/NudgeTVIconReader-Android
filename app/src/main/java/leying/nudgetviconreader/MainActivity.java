@@ -1,3 +1,7 @@
+//If you meet any problems,
+//please contact
+//Leying Hu
+//hu.leying@columbia.edu
 package leying.nudgetviconreader;
 
 import android.content.Intent;
