@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">NudgeTVIconReader</string>
+    <string name="NudgeTV_Logo">Nudge TV</string>
+    <string name="scan_NudgeTV_Icon">Scan Nudge TV Icon</string>
+</resources>
